@@ -9,3 +9,54 @@
 .weather-card {
   margin-bottom: 10px; /* Add some space between cards */
 }
+
+/* Container for the App */
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0; /* Fallback background color */
+}
+
+/* Video background */
+.bg-video-container {
+  position: relative;
+  width: 90%; /* Set the width of the video container */
+  max-width: 800px; /* Limit max width for large screens */
+  height: 450px; /* Set a fixed height */
+  overflow: hidden;
+  border-radius: 10px; /* Optional: rounded corners */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Optional: shadow effect */
+}
+
+/* Adjust video size to cover the container */
+.bg-video {
+  position: absolute;
+  top:0;
+  left:0;
+  width: 1520px;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Main content inside video container */
+.content {
+  position: relative;
+  z-index: 1;
+  color: rgb(0, 0, 0); /* Text color for readability */
+  padding: 1rem;
+  text-align: center;
+  backdrop-filter: blur(3px); /* Optional: blur background for readability */
+}
+
+/* Center content title */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: #ff4d4f; /* Red color for error messages */
+  font-weight: bold;
+}
