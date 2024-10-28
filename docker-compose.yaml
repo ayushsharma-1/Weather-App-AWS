@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - WEATHER_API_KEY=ca18294b6c0e9574ece4ddddf6ff7e71
+      - MONGO_URI=mongodb://localhost:27017/weather_db
+
+    depends_on:
+      - mongo
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    depends_on:
+      - backend
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+volumes:
+  mongo_data:
