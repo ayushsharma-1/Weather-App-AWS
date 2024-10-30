@@ -1,22 +1,51 @@
+/* This is the card css*/
 .weather-display {
   display: flex;
-  max-height: 400px; /* Adjust the height as needed */
-  overflow-y: auto;  /* Enable vertical scrolling */
-  border: 1px solid #ccc; /* Optional: Add a border for better visibility */
-  padding: 10px; /* Optional: Add padding for aesthetics */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  max-width: 840px; /* Allows only 2 cards per row */
 }
 
 .weather-card {
-  margin-bottom: 10px; /* Add some space between cards */
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: Arial, sans-serif;
 }
+
+.weather-card h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.weather-card p {
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+  margin: 10px 0;
+}
+
+.icon {
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+}
+
+
+
 
 /* Container for the App */
 .App {
-  display: flex;
   justify-content: center;
+  align-content: center;
   align-items: center;
+  display: flex;
   min-height: 100vh;
-  background-color: #f0f0f0; /* Fallback background color */
 }
 
 /* Video background */
@@ -32,13 +61,15 @@
 
 /* Adjust video size to cover the container */
 .bg-video {
-  position: absolute;
-  top:0;
-  left:0;
-  width: 1520px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
   object-fit: cover;
+  z-index: -1;
 }
+
 
 /* Main content inside video container */
 .content {
@@ -50,13 +81,14 @@
   backdrop-filter: blur(3px); /* Optional: blur background for readability */
 }
 
-/* Center content title */
-h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
 .error {
   color: #ff4d4f; /* Red color for error messages */
   font-weight: bold;
+}
+
+.Header {
+  font-size: 2rem;
+ background: linear-gradient(135deg, #FF8C00, green, #FFD700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

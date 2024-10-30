@@ -12,18 +12,26 @@ const App = () => {
     const fetchWeatherData = async () => {
       const cities = 'Delhi,Mumbai,Kanpur,Jhansi,Srinagar,Bangalore';
       const url = `http://localhost:5000/api/weather?cities=${cities}`;
-      console.log('Fetching weather data from:', url); // Log the URL for debugging
       try {
         const response = await axios.get(url);
-        setWeatherData(response.data); // Ensure response.data is an array
+        console.log("Fetched Weather Data: ", response.data); // Check data structure here
+        setWeatherData(response.data);
       } catch (err) {
         console.error('Error fetching weather data:', err);
         setError('Could not fetch weather data. Please try again later.');
       }
     };
 
+    // Fetch data initially
     fetchWeatherData();
+
+    // Set up an interval to fetch data every 2 minutes (120,000 ms)
+    const intervalId = setInterval(fetchWeatherData, 120000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
+  
 
   return (
     <div className="App">
@@ -32,7 +40,7 @@ const App = () => {
         Your browser does not support the video tag.
       </video>
       <div className="content">
-      <h1>Weather Monitoring System</h1>
+      <h1 className="Header">Weather Monitoring System</h1>
       {error && <div className="error">{error}</div>}
       <WeatherDisplay weatherData={weatherData} />
     </div>
