@@ -12,10 +12,10 @@ The Weather Management System is a web application that provides real-time weath
 
 ## Technologies Used
 
-- Frontend: React
-- Backend: Node.js, Express
-- Database: MongoDB
-- Docker for containerization
+- **Frontend**: React
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Docker**: For containerization
 
 ## Installation
 
@@ -23,9 +23,9 @@ To run this project locally, follow the steps below:
 
 ### Prerequisites
 
-- Node.js (version 16 or higher)
-- MongoDB (if running locally)
-- Docker (optional, for containerized deployment)
+- **Node.js** (version 16 or higher)
+- **MongoDB** (if running locally)
+- **Docker** (optional, for containerized deployment)
 
 ### Clone the Repository
 
@@ -88,6 +88,13 @@ If you prefer to run the application using Docker, you can use Docker Compose to
 
 This command will build the Docker images and start the containers for the backend, frontend, and MongoDB. You can access the application at `http://localhost:3000`.
 
+### Docker Images
+
+You can also pull the Docker images for the frontend and backend from Docker Hub:
+
+- **Backend**: [ayush180/weather-backend](https://hub.docker.com/repository/docker/ayush180/weather-backend)
+- **Frontend**: [ayush180/weather-frontend](https://hub.docker.com/repository/docker/ayush180/weather-frontend)
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
@@ -95,16 +102,5 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 ## License
 
 This project is licensed under the MIT License.
-```
 
-### Key Sections Explained
-
-- **Overview**: Briefly describes what the project does.
-- **Features**: Lists the main functionalities.
-- **Technologies Used**: Specifies the tech stack used in the project.
-- **Installation**: Provides detailed steps on how to clone the repo, install dependencies, and run both the backend and frontend.
-- **Running with Docker**: Explains how to use Docker Compose for easier deployment.
-- **Contributing**: Encourages contributions from others.
-- **License**: States the project's license.
-
-Feel free to customize any part of the `README.md` to better fit your project! Let me know if you need any changes or additional information.
+---
