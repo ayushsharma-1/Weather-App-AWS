@@ -8,7 +8,7 @@ body {
   
   .App {
     text-align: center;
-    margin: 20px;
+    margin: 1rem 10rem;
   }
   
   .weather-cards {
@@ -24,6 +24,5 @@ body {
     padding: 20px;
     margin: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 200px;
+    width: 315px;
   }
-  
