@@ -1,6 +1,5 @@
 // backend/server.js
 const express = require('express');
-const mongoose = require('mongoose');
 const weatherRoutes = require('./routes/weather');
 const dotenv = require('dotenv');
 const cors = require('cors');  // Import CORS
@@ -12,11 +11,6 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 app.use(cors());  // Enable CORS for all routes
-
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error(err));
 
 // Weather routes
 app.use('/api/weather', weatherRoutes);
