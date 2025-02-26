@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-service
+spec:
+  type: NodePort
+  selector:
+    app: weather-report
+  ports:
+    - name: frontend
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30080
+    - name: backend
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30081

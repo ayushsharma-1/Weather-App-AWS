@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-service
+  labels:
+    app: weather-report
+spec:
+  type: LoadBalancer
+  selector:
+    app: weather-report
+  ports:
+    - name: frontend
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+    - name: backend
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
