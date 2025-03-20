@@ -99,7 +99,7 @@ You can also pull the Docker images for the frontend and backend from Docker Hub
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
 
-
+.env - WEATHER_API_KEY=ca18294b6c0e9574ece4ddddf6ff7e71
 ## License
 
 This project is licensed under the MIT License.
