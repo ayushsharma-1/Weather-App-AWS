@@ -2,17 +2,17 @@
 const express = require('express');
 const weatherRoutes = require('./routes/weather');
 const dotenv = require('dotenv');
-const cors = require('cors');  // Import CORS
+const cors = require('cors');
 
 require('dotenv').config();
-// console.log("API Key:", process.env.OPENWEATHERMAP_API_KEY);
+
 
 
 const app = express();
 app.use(express.json());
-app.use(cors());  // Enable CORS for all routes
+app.use(cors());  
 
-// Weather routes
+
 app.use('/api/weather', weatherRoutes);
 
 const PORT = process.env.PORT || 5000;
