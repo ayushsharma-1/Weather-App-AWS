@@ -1,13 +1,5 @@
 # 🌦️ Weather Management System
 
-<p align="center">
-  <a href="https://jenkins.yourdomain.com/job/Weather/20/">
-    <img src="https://jenkins.yourdomain.com/job/Weather/20/badge/icon" alt="Build Status"/>
-  </a>
-  <a href="https://github.com/ayushsharma-1/Weather-Management-System/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/ayushsharma-1/Weather-Management-System" alt="License"/>
-  </a>
-</p>
 [![License](https://img.shields.io/github/license/ayushsharma-1/Weather-Management-System)](https://github.com/ayushsharma-1/Weather-Management-System/blob/main/LICENSE)  
 [![GitHub Stars](https://img.shields.io/github/stars/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/stargazers)  
 [![GitHub Forks](https://img.shields.io/github/forks/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/network/members)  
