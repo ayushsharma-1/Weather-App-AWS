@@ -51,7 +51,7 @@ const App = () => {
 
   const fetchWeatherData = useCallback(async () => {
     const cities = 'Delhi,Mumbai,Kanpur,Jhansi,Srinagar,Bangalore';
-    const url = `http://localhost:5000/api/weather?cities=${cities}`;
+    const url = `http://13.234.66.183:5000/api/weather?cities=${cities}`;
 
     try {
       const response = await axios.get(url);
