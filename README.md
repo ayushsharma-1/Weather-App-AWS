@@ -1,7 +1,3 @@
-Absolutely! Here's an updated version of your README that reflects your **DevOps skills**, mentioning **AWS EC2**, **Jenkins CI/CD**, **Docker**, and **automatic deployments**.
-
----
-
 # Weather Management System
 
 ## Overview
@@ -172,8 +168,3 @@ This project is licensed under the MIT License.
 ### Author  
 👤 **Ayush Sharma**  
 - GitHub: [ayushsharma-1](https://github.com/ayushsharma-1)
-
----
-
-Let me know if you want to include screenshots, badges, or status indicators (e.g., build passing ✅) on top!  
-Want me to add a section on monitoring/logging (CloudWatch, Prometheus) or scaling with ECS/Auto Scaling Groups?
