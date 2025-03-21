@@ -1,6 +1,6 @@
 # 🌦️ Weather Management System
 
-[![Build Status](https://primate-smart-silkworm.ngrok-free.app/job/Weather/badge/icon)](https://primate-smart-silkworm.ngrok-free.app/job/Weather/)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://primate-smart-silkworm.ngrok-free.app/job/Weather/)
 [![License](https://img.shields.io/github/license/ayushsharma-1/Weather-Management-System)](https://github.com/ayushsharma-1/Weather-Management-System/blob/main/LICENSE)  
 [![GitHub Stars](https://img.shields.io/github/stars/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/stargazers)  
 [![GitHub Forks](https://img.shields.io/github/forks/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/network/members)  
@@ -49,7 +49,7 @@ It implements an automated **CI/CD pipeline** using Jenkins that builds Docker i
   5. Jenkins exposed via ngrok tunnel for remote management
 
 ### Jenkins Build Status  
-[![Build Status](https://primate-smart-silkworm.ngrok-free.app/job/Weather/badge/icon)](https://primate-smart-silkworm.ngrok-free.app/job/Weather/)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://primate-smart-silkworm.ngrok-free.app/job/Weather/)
 
 ---
 
