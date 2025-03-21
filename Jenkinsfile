@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    triggers {
+        githubPush()  
+    }
 
     environment {
         BACKEND_IMAGE = 'ayush180/weather-backend'
