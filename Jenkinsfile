@@ -5,6 +5,7 @@ pipeline {
         BACKEND_IMAGE = 'ayush180/weather-backend'
         FRONTEND_IMAGE = 'ayush180/weather-frontend'
         IMAGE_TAG = "v3-${BUILD_NUMBER}" // or use commit hash
+        AWS_VM_PUBLIC_IP = "13.234.66.183"
     }
 
     stages {
@@ -49,7 +50,7 @@ pipeline {
             steps {
                 sshagent (credentials: ['aws-ec2-key']) {
                     sh """
-                    ssh -o StrictHostKeyChecking=no ec2-user@<AWS-VM-PUBLIC-IP> '
+                    ssh -o StrictHostKeyChecking=no ec2-user@${AWS_VM_PUBLIC_IP} '
                     docker pull ${BACKEND_IMAGE}:${IMAGE_TAG} &&
                     docker pull ${FRONTEND_IMAGE}:${IMAGE_TAG} &&
                     
