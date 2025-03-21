@@ -1,92 +1,84 @@
-# Weather Management System
+# 🌦️ Weather Management System
 
-## Overview
-
-The **Weather Management System** is a cloud-native web application providing real-time weather information for multiple locations. Users can search for weather data, view current conditions, and get detailed forecasts. This project demonstrates both full-stack development and automated DevOps workflows.
-
----
-
-## Features
-
-- 🌤️ Real-time weather data retrieval  
-- 🖥️ User-friendly interface for searching locations  
-- 📈 Display of temperature, humidity, wind speed, and more  
-- 🚀 **Automated CI/CD pipeline using Jenkins and Docker**  
-- ☁️ **Hosted on AWS EC2 with zero-downtime deployments**
+[![Build Status](http://localhost:8080/job/Weather/lastBuild/badge/icon)](http://localhost:8080/job/Weather/)  
+[![License](https://img.shields.io/github/license/ayushsharma-1/Weather-Management-System)](https://github.com/ayushsharma-1/Weather-Management-System/blob/main/LICENSE)  
+[![GitHub Stars](https://img.shields.io/github/stars/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/stargazers)  
+[![GitHub Forks](https://img.shields.io/github/forks/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/network/members)  
+[![GitHub Issues](https://img.shields.io/github/issues/ayushsharma-1/Weather-Management-System)](https://github.com/ayushsharma-1/Weather-Management-System/issues)
 
 ---
 
-## Technologies Used
+## 🚀 Overview
 
-- **Frontend**: React  
-- **Backend**: Node.js, Express  
-- **Database**: MongoDB  
-- **Containerization**: Docker  
-- **CI/CD**: Jenkins  
-- **Cloud Hosting**: AWS EC2  
+The **Weather Management System** is a full-stack web application providing real-time weather information for various cities.  
+It implements an automated **CI/CD pipeline** using Jenkins that builds Docker images and deploys on an AWS EC2 instance.
 
 ---
 
-## Architecture & DevOps Pipeline 🚀
+## 🛠️ Tech Stack
 
-This project follows a **GitOps** approach with **automated deployments** to AWS infrastructure:
-
-1. **GitHub** → Source code management  
-2. **Jenkins** → Automates the CI/CD pipeline  
-3. **DockerHub** → Docker images for backend and frontend are pushed here  
-4. **AWS EC2 (Ubuntu)** → Hosts the production environment  
-5. **Webhook Trigger** → GitHub push automatically triggers Jenkins builds
-
-### 🛠️ CI/CD Pipeline Workflow
-
-- Whenever code is pushed to the **GitHub repository**, a **GitHub webhook** triggers a **Jenkins pipeline**.
-- Jenkins pulls the latest code and:
-  1. Builds Docker images for **frontend** and **backend**.
-  2. Pushes these images to **DockerHub**.
-  3. SSHs into the AWS EC2 instance.
-  4. Stops and removes any running containers.
-  5. Pulls the latest Docker images from DockerHub.
-  6. Runs the updated containers, ensuring the latest version is deployed automatically.
+![React](https://img.shields.io/badge/React-Frontend-blue)  
+![Node.js](https://img.shields.io/badge/Node.js-Backend-green)  
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-brightgreen)  
+![Docker](https://img.shields.io/badge/Docker-Containerization-blue)  
+![Jenkins](https://img.shields.io/badge/Jenkins-CI/CD-red)  
+![AWS EC2](https://img.shields.io/badge/AWS-EC2-orange)
 
 ---
 
-## Live Deployment 🌍
+## 🔥 Features
 
-The application is **live and hosted on AWS EC2**, running in Docker containers.  
-- **Backend API Endpoint**: `http://<your-ec2-ip>:5000/api/weather`  
-- **Frontend App**: `http://<your-ec2-ip>:3000/`
-
----
-
-## Prerequisites (For Local Setup)
-
-- **Node.js** (v16 or higher)  
-- **MongoDB** (if running locally)  
-- **Docker & Docker Compose**  
-- **Jenkins** (for CI/CD setup, optional for local)  
-- **AWS EC2** (optional for hosting your own deployment)
+- Real-time weather data retrieval  
+- User-friendly search  
+- Weather metrics: temperature, humidity, wind speed  
+- **CI/CD Pipeline** using Jenkins  
+- Dockerized frontend and backend  
+- Deployed on AWS EC2 with automated deployment
 
 ---
 
-## Local Development & Deployment
+## ✅ CI/CD Pipeline (Jenkins)
+
+- **Trigger** ➜ GitHub webhook on `main` branch push  
+- **Steps**:
+  1. Checkout source code
+  2. Build Docker images (`backend` + `frontend`)
+  3. Push Docker images to DockerHub
+  4. SSH into AWS EC2 and deploy containers
+
+### Jenkins Build Status  
+[![Build Status](http://localhost:8080/job/Weather/lastBuild/badge/icon)](http://localhost:8080/job/Weather/)
+
+---
+
+## 🐳 DockerHub Images and Stats
+
+### Backend  
+[![Docker Pulls](https://img.shields.io/docker/pulls/ayush180/weather-backend)](https://hub.docker.com/r/ayush180/weather-backend)  
+[![Docker Stars](https://img.shields.io/docker/stars/ayush180/weather-backend)](https://hub.docker.com/r/ayush180/weather-backend)
+
+### Frontend  
+[![Docker Pulls](https://img.shields.io/docker/pulls/ayush180/weather-frontend)](https://hub.docker.com/r/ayush180/weather-frontend)  
+[![Docker Stars](https://img.shields.io/docker/stars/ayush180/weather-frontend)](https://hub.docker.com/r/ayush180/weather-frontend)
+
+---
+
+## 📦 Installation (Manual)
 
 ### Clone the Repository
-
 ```bash
 git clone https://github.com/ayushsharma-1/Weather-Management-System.git
 cd Weather-Management-System
 ```
 
-### Running Backend Locally
-
+### Run Backend Locally
 ```bash
 cd backend
 npm install
 node server.js
 ```
 
-### Running Frontend Locally
-
+### Run Frontend Locally
 ```bash
 cd frontend
 npm install
@@ -95,75 +87,37 @@ npm start
 
 ---
 
-## Running with Docker Locally 🐳
-
-Use Docker Compose to run backend, frontend, and MongoDB services:
+## 🐳 Running with Docker Compose (Local)
 
 ```bash
-docker-compose up --build
+docker-compose up
 ```
 
-Access the app at `http://localhost:3000`.
+- Starts MongoDB, backend, and frontend  
+- Access frontend ➜ `http://localhost:3000`
 
 ---
 
-## Docker Images
+## 🌐 Live Deployment (AWS EC2)
 
-Pull the latest images directly from DockerHub:
+Frontend ➜ `http://<your-ec2-public-ip>:3000`  
+Backend ➜ `http://<your-ec2-public-ip>:5000`
 
-- **Backend** → [ayush180/weather-backend](https://hub.docker.com/repository/docker/ayush180/weather-backend)  
-- **Frontend** → [ayush180/weather-frontend](https://hub.docker.com/repository/docker/ayush180/weather-frontend)
-
----
-
-## DevOps Workflow Demo 🚀  
-> **Automated CI/CD with Jenkins + Docker + AWS EC2**
-
-- GitHub push triggers Jenkins pipeline.
-- Jenkins builds & pushes Docker images to DockerHub.
-- AWS EC2 pulls the latest Docker images and runs them in containers.
-- No manual intervention required for deployment!
-  
-Pipeline steps:
-```yaml
-- Checkout GitHub repo
-- Build backend & frontend Docker images
-- Push images to DockerHub
-- SSH into AWS EC2
-- Stop running containers
-- Pull latest Docker images
-- Run updated containers
-```
+Automatically deployed via Jenkins CI/CD pipeline from GitHub ➜ DockerHub ➜ EC2.
 
 ---
 
-## CI/CD Pipeline Diagram
-```mermaid
-graph LR
-A[Developer Pushes Code] --> B(GitHub Repo)
-B --> C{GitHub Webhook Trigger}
-C --> D(Jenkins CI/CD Pipeline)
-D --> E(Build Docker Images)
-E --> F(Push to DockerHub)
-F --> G(SSH to AWS EC2)
-G --> H(Pull Images & Deploy Containers)
-H --> I(Live App on AWS)
-```
-
----
-
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome!  
-Feel free to **fork** the repo, create **pull requests**, or open **issues**.
+Open an issue or submit a PR.  
 
 ---
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](https://github.com/ayushsharma-1/Weather-Management-System/blob/main/LICENSE).
 
----
 
 ### Author  
 👤 **Ayush Sharma**  
