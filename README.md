@@ -1,6 +1,6 @@
 # 🌦️ Weather Management System
 
-[![Build Status](http://localhost:8080/job/Weather/20/badge/icon)](http://localhost:8080/job/Weather/)
+[![Build Status](http://localhost:8080/job/Weather/20/badge/icon)](http://localhost:8080/job/Weather/)  
 [![License](https://img.shields.io/github/license/ayushsharma-1/Weather-Management-System)](https://github.com/ayushsharma-1/Weather-Management-System/blob/main/LICENSE)  
 [![GitHub Stars](https://img.shields.io/github/stars/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/stargazers)  
 [![GitHub Forks](https://img.shields.io/github/forks/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/network/members)  
@@ -11,7 +11,7 @@
 ## 🚀 Overview
 
 The **Weather Management System** is a full-stack web application providing real-time weather information for various cities.  
-It implements an automated **CI/CD pipeline** using Jenkins that builds Docker images and deploys on an AWS EC2 instance.
+It implements an automated **CI/CD pipeline** using Jenkins that builds Docker images and deploys them on an AWS EC2 instance.
 
 ---
 
@@ -29,11 +29,12 @@ It implements an automated **CI/CD pipeline** using Jenkins that builds Docker i
 ## 🔥 Features
 
 - Real-time weather data retrieval  
-- User-friendly search  
+- User-friendly search functionality  
 - Weather metrics: temperature, humidity, wind speed  
 - **CI/CD Pipeline** using Jenkins  
 - Dockerized frontend and backend  
-- Deployed on AWS EC2 with automated deployment
+- Deployed on AWS EC2 with automated deployment  
+- Jenkins exposed via **Ngrok** for remote access  
 
 ---
 
@@ -41,10 +42,11 @@ It implements an automated **CI/CD pipeline** using Jenkins that builds Docker i
 
 - **Trigger** ➜ GitHub webhook on `main` branch push  
 - **Steps**:
-  1. Checkout source code
+  1. Checkout source code from GitHub
   2. Build Docker images (`backend` + `frontend`)
   3. Push Docker images to DockerHub
   4. SSH into AWS EC2 and deploy containers
+  5. Jenkins exposed via ngrok tunnel for remote management
 
 ### Jenkins Build Status  
 [![Build Status](http://localhost:8080/job/Weather/20/badge/icon)](http://localhost:8080/job/Weather/)
@@ -63,7 +65,15 @@ It implements an automated **CI/CD pipeline** using Jenkins that builds Docker i
 
 ---
 
-## 📦 Installation (Manual)
+## 🌐 Architecture Diagram
+
+The diagram below illustrates the architecture and CI/CD pipeline flow of the Weather Management System.
+
+![Architecture Diagram](https://your-image-link.com/architecture-diagram.png)
+
+---
+
+## 📦 Installation (Manual Setup)
 
 ### Clone the Repository
 ```bash
@@ -87,7 +97,7 @@ npm start
 
 ---
 
-## 🐳 Running with Docker Compose (Local)
+## 🐳 Running Locally with Docker Compose
 
 ```bash
 docker-compose up
@@ -107,10 +117,46 @@ Automatically deployed via Jenkins CI/CD pipeline from GitHub ➜ DockerHub ➜ 
 
 ---
 
+## 📖 API Documentation
+
+Base URL:  
+```
+http://13.234.66.183:5000/api/weather?cities=${cities}
+```
+
+### Endpoints
+
+| Method | Endpoint                                            | Description                 |
+|--------|-----------------------------------------------------|-----------------------------|
+| GET    | `/api/weather?cities=${cities}`                    | Get weather for cities      |
+| GET    | `/api/weather/:id`                                 | Get weather by city ID      |
+| POST   | `/api/weather`                                     | Add new weather data        |
+| PUT    | `/api/weather/:id`                                 | Update weather data by ID   |
+| DELETE | `/api/weather/:id`                                 | Delete weather data by ID   |
+
+### Example Request
+```bash
+curl -X GET "http://13.234.66.183:5000/api/weather?cities=London"
+```
+
+### Example Response
+```json
+[
+  {
+    "city": "London",
+    "temperature": "15°C",
+    "humidity": "60%",
+    "windSpeed": "5 km/h"
+  }
+]
+```
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome!  
-Open an issue or submit a PR.  
+Feel free to open an issue or submit a pull request.  
 
 ---
 
@@ -118,7 +164,10 @@ Open an issue or submit a PR.
 
 This project is licensed under the [MIT License](https://github.com/ayushsharma-1/Weather-Management-System/blob/main/LICENSE).
 
+---
 
-### Author  
-👤 **Ayush Sharma**  
+## 👤 Author
+
+**Ayush Sharma**  
 - GitHub: [ayushsharma-1](https://github.com/ayushsharma-1)
+```
