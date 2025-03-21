@@ -1,6 +1,6 @@
 # 🌦️ Weather Management System
 
-[![Build Status](http://localhost:8080/job/Weather/lastBuild/badge/icon)](http://localhost:8080/job/Weather/)  
+[![Build Status](http://localhost:8080/buildStatus/icon?job=Weather)](http://localhost:8080/job/Weather/20/badge/icon)
 [![License](https://img.shields.io/github/license/ayushsharma-1/Weather-Management-System)](https://github.com/ayushsharma-1/Weather-Management-System/blob/main/LICENSE)  
 [![GitHub Stars](https://img.shields.io/github/stars/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/stargazers)  
 [![GitHub Forks](https://img.shields.io/github/forks/ayushsharma-1/Weather-Management-System?style=social)](https://github.com/ayushsharma-1/Weather-Management-System/network/members)  
