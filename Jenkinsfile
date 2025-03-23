@@ -86,7 +86,7 @@ pipeline {
                     passwordVariable: 'GIT_PASS'
                 )]) {
                     sh """
-                        git config --global user.email "you@example.com"
+                        git config --global user.email "ayushsharma18001@gmail.com"
                         git config --global user.name "$GIT_USER"
 
                         git remote set-url origin https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-Management-System.git
