@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE = "ayush180/weather-frontend"
         DOCKER_TAG = "v4-${BUILD_NUMBER}"
         DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
-        SSH_CREDENTIALS_ID = 'ec2-ssh'
+        SSH_CREDENTIALS_ID = 'aws-ec2-key'
         GITHUB_CREDENTIALS_ID = 'github-creds'
         REMOTE_HOST = '13.234.66.183'
         LOGS_DIR = 'logs'
