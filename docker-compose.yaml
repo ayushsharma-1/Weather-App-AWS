@@ -1,28 +1,8 @@
 version: '3.8'
 
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "5000:5000"
-    env_file:
-      - ./backend/.env 
-    restart: unless-stopped
-    networks:
-      - app-network
-
   frontend:
-    build: ./frontend
+    image: ayush180/weather-frontend:v4
     ports:
-      - "3000:3000"
-    environment:
-      - REACT_APP_API_URL=http://backend:5000
-    depends_on:
-      - backend
-    restart: unless-stopped
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+      - "3000:80"
+    restart: always
