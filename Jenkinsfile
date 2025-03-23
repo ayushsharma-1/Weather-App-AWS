@@ -34,10 +34,10 @@ pipeline {
         stage('Push Image to DockerHub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh '''
-                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    sh """
+                    echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
                     docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
-                    '''
+                    """
                 }
             }
         }
@@ -63,12 +63,11 @@ pipeline {
                     // Ensure logs directory exists
                     sh "mkdir -p ${LOGS_DIR}"
 
-                    // Export logs to CSV (basic example)
                     def logFile = "${LOGS_DIR}/build-${BUILD_NUMBER}.csv"
 
                     sh """
                     echo 'Build Number,Job Name,Status,Timestamp' > ${logFile}
-                    echo '${BUILD_NUMBER},${JOB_NAME},${CURRENT_BUILD.currentResult},$(date)' >> ${logFile}
+                    echo '${BUILD_NUMBER},${JOB_NAME},${CURRENT_BUILD.currentResult},\$(date)' >> ${logFile}
                     """
                 }
             }
@@ -82,7 +81,7 @@ pipeline {
                     git config user.name "ayushsharma-1"
 
                     git add ${LOGS_DIR}/
-                    git commit -m "Add Jenkins log CSV for build ${BUILD_NUMBER}"
+                    git commit -m "Add Jenkins log CSV for build ${BUILD_NUMBER}" || echo "No changes to commit"
                     git push https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-Management-System.git ${GIT_BRANCH}
                     """
                 }
