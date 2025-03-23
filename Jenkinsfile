@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         FRONTEND_IMAGE = 'ayush180/weather-frontend'
-        IMAGE_TAG = "v3-${BUILD_NUMBER}"
+        IMAGE_TAG = "v4-${BUILD_NUMBER}"
         AWS_VM_PUBLIC_IP = "13.234.66.183"
         SSH_USER = "ec2-user"
         FRONTEND_PORT = "3000"
@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/ayushsharma-1/Weather-Management-System.git', branch: 'Rudra-Work'
+                git url: 'https://github.com/ayushsharma-1/Weather-Management-System.git', branch: 'main'
             }
         }
 
@@ -47,7 +47,7 @@ pipeline {
                     docker pull ${FRONTEND_IMAGE}:${IMAGE_TAG} &&
                     docker stop frontend-container || true &&
                     docker rm frontend-container || true &&
-                    docker run -d --name frontend-container -p ${FRONTEND_PORT}:3000 ${FRONTEND_IMAGE}:${IMAGE_TAG}
+                    docker run -d --name frontend-container -p ${FRONTEND_PORT}:80 ${FRONTEND_IMAGE}:${IMAGE_TAG}
                     '
                     """
                 }
