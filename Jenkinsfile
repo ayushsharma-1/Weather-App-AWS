@@ -11,12 +11,15 @@ pipeline {
         AWS_VM_PUBLIC_IP = "13.234.66.183"
         SSH_USER = "ec2-user"
         FRONTEND_PORT = "3000"
+        LOGS_DIR = "logs"
+        GIT_REPO = "https://github.com/ayushsharma-1/Weather-Management-System.git"
+        GIT_BRANCH = "main"
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/ayushsharma-1/Weather-Management-System.git', branch: 'main'
+                git url: "${GIT_REPO}", branch: "${GIT_BRANCH}"
             }
         }
 
@@ -53,14 +56,46 @@ pipeline {
                 }
             }
         }
+
+        stage('Export Jenkins Build Logs as CSV') {
+            steps {
+                script {
+                    // Ensure logs directory exists
+                    sh "mkdir -p ${LOGS_DIR}"
+
+                    // Export logs to CSV (basic example)
+                    def logFile = "${LOGS_DIR}/build-${BUILD_NUMBER}.csv"
+
+                    sh """
+                    echo 'Build Number,Job Name,Status,Timestamp' > ${logFile}
+                    echo '${BUILD_NUMBER},${JOB_NAME},${CURRENT_BUILD.currentResult},$(date)' >> ${logFile}
+                    """
+                }
+            }
+        }
+
+        stage('Commit & Push Logs to GitHub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                    sh """
+                    git config user.email "ayushsharma18001@gmail.com"
+                    git config user.name "ayushsharma-1"
+
+                    git add ${LOGS_DIR}/
+                    git commit -m "Add Jenkins log CSV for build ${BUILD_NUMBER}"
+                    git push https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-Management-System.git ${GIT_BRANCH}
+                    """
+                }
+            }
+        }
     }
 
     post {
         success {
-            echo "Successfully deployed build ${IMAGE_TAG}"
+            echo "Successfully deployed build ${IMAGE_TAG} and exported logs"
         }
         failure {
-            echo "Deployment failed"
+            echo "Deployment failed, logs exported"
         }
     }
 }
