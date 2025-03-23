@@ -5,15 +5,18 @@ pipeline {
         DOCKER_IMAGE = "ayush180/weather-frontend"
         DOCKER_TAG = "v4-${BUILD_NUMBER}"
         DOCKER_CREDENTIALS_ID = 'dockerhub'
-        SSH_CREDENTIALS_ID = 'ec2-user'
+        SSH_CREDENTIALS_ID = 'ec2-ssh'
+        GITHUB_CREDENTIALS_ID = 'github-creds'
         REMOTE_HOST = '13.234.66.183'
         LOGS_DIR = 'logs'
+        GIT_REPO = 'https://github.com/ayushsharma-1/Weather-Management-System.git'
     }
 
     stages {
+
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/ayushsharma-1/Weather-Management-System.git', branch: 'main'
+                git url: "${GIT_REPO}", branch: 'main'
             }
         }
 
@@ -29,7 +32,11 @@ pipeline {
 
         stage('Push Image to DockerHub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: "${DOCKER_CREDENTIALS_ID}",
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
                     sh """
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
@@ -40,7 +47,7 @@ pipeline {
 
         stage('Deploy on AWS EC2') {
             steps {
-                sshagent([SSH_CREDENTIALS_ID]) {
+                sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
                     sh """
                         ssh -o StrictHostKeyChecking=no ec2-user@${REMOTE_HOST} '
                             docker pull ${DOCKER_IMAGE}:${DOCKER_TAG} &&
@@ -58,10 +65,12 @@ pipeline {
                 script {
                     sh "mkdir -p ${LOGS_DIR}"
                     def logFileName = "${LOGS_DIR}/build-${BUILD_NUMBER}.csv"
-                    writeFile file: logFileName, text: """
-                        Build Number,Result,Duration,Timestamp
+                    def buildInfo = """
+                        Build Number,Result,Duration(ms),Timestamp(ms)
                         ${BUILD_NUMBER},${currentBuild.currentResult},${currentBuild.duration},${currentBuild.startTimeInMillis}
                     """.stripIndent()
+
+                    writeFile file: logFileName, text: buildInfo
                 }
             }
         }
@@ -71,13 +80,20 @@ pipeline {
                 expression { fileExists("${LOGS_DIR}/build-${BUILD_NUMBER}.csv") }
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: "${GITHUB_CREDENTIALS_ID}",
+                    usernameVariable: 'GIT_USER',
+                    passwordVariable: 'GIT_PASS'
+                )]) {
                     sh """
                         git config --global user.email "you@example.com"
                         git config --global user.name "$GIT_USER"
+
+                        git remote set-url origin https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-Management-System.git
+
                         git add ${LOGS_DIR}/build-${BUILD_NUMBER}.csv
-                        git commit -m "Add logs for build ${BUILD_NUMBER}"
-                        git push https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-Management-System.git HEAD:main
+                        git commit -m "Add logs for build ${BUILD_NUMBER}" || echo "No changes to commit"
+                        git push origin main
                     """
                 }
             }
@@ -86,10 +102,10 @@ pipeline {
 
     post {
         success {
-            echo "Build ${BUILD_NUMBER} completed successfully."
+            echo "✅ Build ${BUILD_NUMBER} completed successfully."
         }
         failure {
-            echo "Build ${BUILD_NUMBER} failed. Logs exported."
+            echo "❌ Build ${BUILD_NUMBER} failed. Logs exported."
         }
     }
 }
