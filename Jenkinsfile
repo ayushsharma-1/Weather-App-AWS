@@ -1,42 +1,38 @@
 pipeline {
     agent any
 
-    triggers {
-        githubPush()
-    }
-
     environment {
-        FRONTEND_IMAGE = 'ayush180/weather-frontend'
-        IMAGE_TAG = "v4-${BUILD_NUMBER}"
-        AWS_VM_PUBLIC_IP = "13.234.66.183"
-        SSH_USER = "ec2-user"
-        FRONTEND_PORT = "3000"
-        LOGS_DIR = "logs"
-        GIT_REPO = "https://github.com/ayushsharma-1/Weather-Management-System.git"
-        GIT_BRANCH = "main"
+        DOCKER_IMAGE = "ayush180/weather-frontend"
+        DOCKER_TAG = "v4-${BUILD_NUMBER}"
+        DOCKER_CREDENTIALS_ID = 'dockerhub'
+        SSH_CREDENTIALS_ID = 'ec2-user'
+        REMOTE_HOST = '13.234.66.183'
+        LOGS_DIR = 'logs'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git url: "${GIT_REPO}", branch: "${GIT_BRANCH}"
+                git url: 'https://github.com/ayushsharma-1/Weather-Management-System.git', branch: 'main'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 dir('frontend') {
-                    sh "docker build -t ${FRONTEND_IMAGE}:${IMAGE_TAG} ."
+                    sh """
+                        docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                    """
                 }
             }
         }
 
         stage('Push Image to DockerHub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
-                    echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
-                    docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
                     """
                 }
             }
@@ -44,14 +40,14 @@ pipeline {
 
         stage('Deploy on AWS EC2') {
             steps {
-                sshagent (credentials: ['aws-ec2-key']) {
+                sshagent([SSH_CREDENTIALS_ID]) {
                     sh """
-                    ssh -o StrictHostKeyChecking=no ${SSH_USER}@${AWS_VM_PUBLIC_IP} '
-                    docker pull ${FRONTEND_IMAGE}:${IMAGE_TAG} &&
-                    docker stop frontend-container || true &&
-                    docker rm frontend-container || true &&
-                    docker run -d --name frontend-container -p ${FRONTEND_PORT}:80 ${FRONTEND_IMAGE}:${IMAGE_TAG}
-                    '
+                        ssh -o StrictHostKeyChecking=no ec2-user@${REMOTE_HOST} '
+                            docker pull ${DOCKER_IMAGE}:${DOCKER_TAG} &&
+                            docker stop frontend-container || true &&
+                            docker rm frontend-container || true &&
+                            docker run -d --name frontend-container -p 3000:80 ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        '
                     """
                 }
             }
@@ -60,29 +56,28 @@ pipeline {
         stage('Export Jenkins Build Logs as CSV') {
             steps {
                 script {
-                    // Ensure logs directory exists
                     sh "mkdir -p ${LOGS_DIR}"
-
-                    def logFile = "${LOGS_DIR}/build-${BUILD_NUMBER}.csv"
-
-                    sh """
-                    echo 'Build Number,Job Name,Status,Timestamp' > ${logFile}
-                    echo '${BUILD_NUMBER},${JOB_NAME},${CURRENT_BUILD.currentResult},\$(date)' >> ${logFile}
-                    """
+                    def logFileName = "${LOGS_DIR}/build-${BUILD_NUMBER}.csv"
+                    writeFile file: logFileName, text: """
+                        Build Number,Result,Duration,Timestamp
+                        ${BUILD_NUMBER},${currentBuild.currentResult},${currentBuild.duration},${currentBuild.startTimeInMillis}
+                    """.stripIndent()
                 }
             }
         }
 
         stage('Commit & Push Logs to GitHub') {
+            when {
+                expression { fileExists("${LOGS_DIR}/build-${BUILD_NUMBER}.csv") }
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
                     sh """
-                    git config user.email "ayushsharma18001@gmail.com"
-                    git config user.name "ayushsharma-1"
-
-                    git add ${LOGS_DIR}/
-                    git commit -m "Add Jenkins log CSV for build ${BUILD_NUMBER}" || echo "No changes to commit"
-                    git push https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-Management-System.git ${GIT_BRANCH}
+                        git config --global user.email "you@example.com"
+                        git config --global user.name "$GIT_USER"
+                        git add ${LOGS_DIR}/build-${BUILD_NUMBER}.csv
+                        git commit -m "Add logs for build ${BUILD_NUMBER}"
+                        git push https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-Management-System.git HEAD:main
                     """
                 }
             }
@@ -91,10 +86,10 @@ pipeline {
 
     post {
         success {
-            echo "Successfully deployed build ${IMAGE_TAG} and exported logs"
+            echo "Build ${BUILD_NUMBER} completed successfully."
         }
         failure {
-            echo "Deployment failed, logs exported"
+            echo "Build ${BUILD_NUMBER} failed. Logs exported."
         }
     }
 }
