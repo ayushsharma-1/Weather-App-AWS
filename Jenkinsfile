@@ -9,7 +9,7 @@ pipeline {
         GITHUB_CREDENTIALS_ID = 'github-creds'
         REMOTE_HOST = '13.234.21.167'
         LOGS_DIR = 'logs'
-        GIT_REPO = 'https://github.com/ayushsharma-1/Weather-App-AWS'
+        GIT_REPO = 'https://github.com/ayushsharma-1/Weather-App-AWS.git'
     }
 
     stages {
@@ -87,7 +87,7 @@ pipeline {
                     sh """
                         git config --global user.email "ayushsharma18001@gmail.com"
                         git config --global user.name "$GIT_USER"
-                        git remote set-url origin https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-Management-System.git
+                        git remote set-url origin https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-App-AWS.git
                         git add ${LOGS_DIR}/build-${BUILD_NUMBER}.csv
                         git commit -m "Add logs for build ${BUILD_NUMBER}" || echo "No changes to commit"
                         git push origin main
