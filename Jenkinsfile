@@ -7,7 +7,7 @@ pipeline {
         DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
         SSH_CREDENTIALS_ID = 'aws-ec2-key'
         GITHUB_CREDENTIALS_ID = 'github-creds'
-        REMOTE_HOST = '172.31.10.198'
+        REMOTE_HOST = '13.201.19.32'
         LOGS_DIR = 'logs'
         GIT_REPO = 'https://github.com/ayushsharma-1/Weather-App-AWS.git'
     }
