@@ -9,14 +9,13 @@ pipeline {
         GITHUB_CREDENTIALS_ID = 'github-creds'
         REMOTE_HOST = '13.234.21.167'
         LOGS_DIR = 'logs'
-        GIT_REPO = 'https://github.com/ayushsharma-1/Weather-App-AWS'
+        GIT_REPO = 'https://github.com/ayushsharma-1/Weather-Management-System.git'
     }
-    
-    stages {
 
+    stages {
         stage('Checkout Code') {
             steps {
-                git url: "${GIT_REPO}", branch: 'main'
+                git url: "${GIT_REPO}", branch: 'main', credentialsId: "${GITHUB_CREDENTIALS_ID}"
             }
         }
 
@@ -49,7 +48,7 @@ pipeline {
             steps {
                 sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no ec2-user@${REMOTE_HOST} '
+                        ssh -o StrictHostKeyChecking=no ubuntu@${REMOTE_HOST} '
                             docker pull ${DOCKER_IMAGE}:${DOCKER_TAG} &&
                             docker stop frontend-container || true &&
                             docker rm frontend-container || true &&
@@ -88,9 +87,7 @@ pipeline {
                     sh """
                         git config --global user.email "ayushsharma18001@gmail.com"
                         git config --global user.name "$GIT_USER"
-
                         git remote set-url origin https://${GIT_USER}:${GIT_PASS}@github.com/ayushsharma-1/Weather-Management-System.git
-
                         git add ${LOGS_DIR}/build-${BUILD_NUMBER}.csv
                         git commit -m "Add logs for build ${BUILD_NUMBER}" || echo "No changes to commit"
                         git push origin main
@@ -106,6 +103,9 @@ pipeline {
         }
         failure {
             echo "❌ Build ${BUILD_NUMBER} failed. Logs exported."
+        }
+        always {
+            cleanWs()
         }
     }
 }
