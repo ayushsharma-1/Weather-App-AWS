@@ -9,7 +9,7 @@ pipeline {
         GITHUB_CREDENTIALS_ID = 'github-creds'
         REMOTE_HOST = '13.234.21.167'
         LOGS_DIR = 'logs'
-        GIT_REPO = 'https://github.com/ayushsharma-1/Weather-Management-System.git'
+        GIT_REPO = 'https://github.com/ayushsharma-1/Weather-App-AWS'
     }
     
     stages {
